@@ -3,14 +3,15 @@ const cors = require('cors');
 const connectDB = require('./db');
 const Asistencia = require('./models/Asistencia');
 const diarioAulaRoutes = require('./routes/diarioAula.routes');
-app.use('/diario-aula', diarioAulaRoutes);
-
 const app = express();
+
+
 const PORT = 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/diario-aula', diarioAulaRoutes);
 
 // Conectar a MongoDB
 connectDB();
