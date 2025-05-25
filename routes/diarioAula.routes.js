@@ -1,7 +1,7 @@
 // routes/diarioAula.routes.js
 const express = require('express');
 const router = express.Router();
-const controlador = require('../controllers/diarioAula.controller');
+const controlador = require('../controllers/diarioAula.controller.js');
 
 router.post('/', controlador.crearEntrada);
 router.get('/', controlador.obtenerEntradas);
