@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./db');
 const Asistencia = require('./models/Asistencia');
+const diarioAulaRoutes = require('./routes/diarioAula.routes');
+app.use('/diario-aula', diarioAulaRoutes);
 
 const app = express();
 const PORT = 3000;
