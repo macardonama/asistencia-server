@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Acudientes = mongoose.connection.collection('acudientes');
+const DiarioAula = require('../models/diarioAula.model');
 
 exports.crearEntrada = async (req, res) => {
   try {
