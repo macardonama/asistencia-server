@@ -3,6 +3,7 @@ const cors = require('cors');
 const connectDB = require('./db');
 const Asistencia = require('./models/Asistencia');
 const diarioAulaRoutes = require('./routes/diarioAula.routes');
+const evaluacionRoutes = require('./routes/evaluacion');
 const app = express();
 
 
@@ -12,7 +13,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/diario-aula', diarioAulaRoutes);
-
+app.use('/api/evaluacion', evaluacionRoutes);
 // Conectar a MongoDB
 connectDB();
 
