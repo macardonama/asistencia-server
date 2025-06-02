@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Acudientes = mongoose.connection.collection('acudientes');
 const DiarioAula = require('../models/diarioAula.model');
+const axios = require('axios');
+const Acudiente = require('../models/Acudiente.js');
 
 exports.crearEntrada = async (req, res) => {
   try {
@@ -15,16 +17,32 @@ exports.crearEntrada = async (req, res) => {
             grupo: datos.grupo
           });
 
-          return {
-            ...obs,
-            acudiente: acudiente
-              ? {
-                  nombre: acudiente.nombre_acudiente,
-                  correo: acudiente.correo_acudiente,
-                  telefono: acudiente.telefono_acudiente
-                }
-              : { error: 'No se encontró acudiente' }
-          };
+          if (acudiente) {
+            // Enviar mensaje al acudiente
+            try {
+              await axios.post('https://asistente-whatsapp-v4no.onrender.com', {
+                telefono: acudiente.telefono_acudiente,
+                mensaje: `Hola ${acudiente.nombre_acudiente}, se ha registrado la siguiente observación sobre ${obs.nombre_estudiante}: "${obs.observacion}".`
+              });
+              console.log(`📨 Mensaje enviado a ${acudiente.telefono_acudiente}`);
+            } catch (error) {
+              console.error('❌ Error al enviar mensaje:', error.message);
+            }
+
+            return {
+              ...obs,
+              acudiente: {
+                nombre: acudiente.nombre_acudiente,
+                correo: acudiente.correo_acudiente,
+                telefono: acudiente.telefono_acudiente
+              }
+            };
+          } else {
+            return {
+              ...obs,
+              acudiente: { error: 'No se encontró acudiente' }
+            };
+          }
         } else {
           return obs;
         }
@@ -43,6 +61,7 @@ exports.crearEntrada = async (req, res) => {
     res.status(500).json({ mensaje: 'Error al guardar entrada', error });
   }
 };
+
 
 
 exports.obtenerEntradas = async (req, res) => {
