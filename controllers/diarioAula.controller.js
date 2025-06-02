@@ -20,7 +20,7 @@ exports.crearEntrada = async (req, res) => {
           if (acudiente) {
             // Enviar mensaje al acudiente
             try {
-              await axios.post('https://asistente-whatsapp-v4no.onrender.com', {
+              await axios.post('https://asistente-whatsapp-v4no.onrender.com/enviar-mensaje', {
                 telefono: acudiente.telefono_acudiente,
                 mensaje: `Hola ${acudiente.nombre_acudiente}, se ha registrado la siguiente observación sobre ${obs.nombre_estudiante}: "${obs.observacion}".`
               });
