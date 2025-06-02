@@ -16,7 +16,6 @@ app.use(express.json());
 app.use('/diario-aula', diarioAulaRoutes);
 app.use('/api/evaluacion', evaluacionRoutes);
 app.use('/api/acudientes', acudientesRoutes);
-
 // Conectar a MongoDB
 connectDB();
 
