@@ -1,19 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const conectarDB = require('../db');
+const Acudiente = require('../models/Acudiente');
 
 router.get('/estudiantes', async (req, res) => {
   try {
-    const db = await conectarDB();
-    const collection = db.collection('acudientes');
-
-    const estudiantes = await collection.find({}, {
-      projection: { _id: 0, nombre_estudiante: 1, grupo: 1 }
-    }).toArray();
-
+    const estudiantes = await Acudiente.find({}, 'nombre_estudiante grupo -_id'); // solo nombre y grupo
     res.json(estudiantes);
   } catch (error) {
-    console.error('Error al obtener estudiantes:', error);
+    console.error('Error al obtener estudiantes:', error.message);
     res.status(500).json({ error: 'Error al obtener estudiantes' });
   }
 });
