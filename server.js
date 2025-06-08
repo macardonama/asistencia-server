@@ -5,6 +5,7 @@ const Asistencia = require('./models/Asistencia');
 const diarioAulaRoutes = require('./routes/diarioAula.routes');
 const evaluacionRoutes = require('./routes/evaluacion');
 const acudientesRoutes = require('./routes/acudientes.routes');
+const estudiantesRoutes = require('./routes/estudiantes')
 const app = express();
 
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/diario-aula', diarioAulaRoutes);
 app.use('/api/evaluacion', evaluacionRoutes);
 app.use('/api/acudientes', acudientesRoutes);
+app.use('/api',estudiantesRoutes)
 // Conectar a MongoDB
 connectDB();
 
