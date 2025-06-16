@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { getDb } = require('../conexion');
+const mongoose = require('mongoose');
 
-// Nuevo endpoint de ranking procesado en backend
+// Nuevo endpoint de ranking usando mongoose.connection
 router.get('/ranking', async (req, res) => {
   try {
-    const db = getDb();
-    const collection = db.collection('respuestas');
+    const Respuesta = mongoose.connection.collection('respuestas');
 
     const grupo = req.query.grupo;
     const fechaInicio = new Date(req.query.fechaInicio);
     const fechaFin = new Date(req.query.fechaFin);
-    fechaFin.setDate(fechaFin.getDate() + 1);  // incluir todo el día fin
+    fechaFin.setDate(fechaFin.getDate() + 1); // incluir el día completo
 
     const filtro = {
       createdAt: { $gte: fechaInicio, $lt: fechaFin }
@@ -21,7 +20,7 @@ router.get('/ranking', async (req, res) => {
       filtro.grupo = grupo;
     }
 
-    const resultados = await collection.aggregate([
+    const resultados = await Respuesta.aggregate([
       { $match: filtro },
       { $group: {
           _id: "$nombre_estudiante",
@@ -34,7 +33,7 @@ router.get('/ranking', async (req, res) => {
 
     res.json(resultados);
   } catch (error) {
-    console.error("Error al calcular el ranking:", error);
+    console.error("Error:", error);
     res.status(500).json({ error: 'Error al calcular ranking' });
   }
 });
