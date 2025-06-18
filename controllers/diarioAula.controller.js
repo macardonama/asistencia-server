@@ -4,6 +4,32 @@ const DiarioAula = require('../models/diarioAula.model');
 const axios = require('axios');
 const Acudiente = require('../models/Acudiente.js');
 
+const DiarioAula = require('../models/diarioaula');
+
+// Filtrar entre fechas por grupo
+exports.filtrarDiarioAula = async (req, res) => {
+  try {
+    const { grupo, fechainicio, fechafin } = req.query;
+
+    if (!grupo || !fechainicio || !fechafin) {
+      return res.status(400).json({ message: 'Faltan parámetros' });
+    }
+
+    const inicio = new Date(fechainicio);
+    const fin = new Date(fechafin);
+
+    const resultados = await DiarioAula.find({
+      grupo: grupo,
+      fecha: { $gte: inicio, $lte: fin }
+    });
+
+    res.json(resultados);
+  } catch (error) {
+    console.error('Error al filtrar Diario de Aula:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
 exports.crearEntrada = async (req, res) => {
   try {
     const datos = req.body;
