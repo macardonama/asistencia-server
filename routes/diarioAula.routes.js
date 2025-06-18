@@ -7,5 +7,5 @@ router.post('/', controlador.crearEntrada);
 router.get('/', controlador.obtenerEntradas);
 router.put('/:id', controlador.actualizarEntrada);
 router.delete('/:id', controlador.eliminarEntrada);
-router.get('/filtrar', diarioAulaController.filtrarDiarioAula);//Este nombre no coincide con el de arriba
+router.get('/filtrar', controlador.filtrarDiarioAula);//Este nombre no coincide con el de arriba
 module.exports = router; // ✅ Esta línea es imprescindible
