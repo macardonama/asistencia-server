@@ -4,8 +4,6 @@ const DiarioAula = require('../models/diarioAula.model');
 const axios = require('axios');
 const Acudiente = require('../models/Acudiente.js');
 
-const DiarioAula = require('../models/diarioaula');
-
 // Filtrar entre fechas por grupo
 exports.filtrarDiarioAula = async (req, res) => {
   try {
